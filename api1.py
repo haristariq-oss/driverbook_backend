@@ -3,6 +3,7 @@ from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 import pandas as pd
 import numpy as np
+import uvicorn
 
 app = FastAPI(title="Fleet Fuel CSV API")
 
@@ -94,3 +95,7 @@ def get_all_records(vehicleId: str = Query(..., description="Vehicle ID to fetch
         )
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8000))  # <-- Must use Railway PORT
+    uvicorn.run(app, host="0.0.0.0", port=port)
